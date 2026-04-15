@@ -2,32 +2,24 @@
 
 ## Project Summary
 
-In this project you will build and explain a small music recommender system.
-
-Your goal is to:
-
-- Represent songs and a user "taste profile" as data
-- Design a scoring rule that turns that data into recommendations
-- Evaluate what your system gets right and wrong
-- Reflect on how this mirrors real world AI recommenders
-
-Replace this paragraph with your own summary of what your version does.
+This project builds a small content-based music recommender that ranks songs from `data/songs.csv` based on a user's preferred genre, mood, and energy level. It shows how recommendation systems turn simple song features into personalized suggestions and how different user profiles can produce different results.
 
 ---
 
 ## How The System Works
 
-Explain your design in plain language.
+This recommender uses a **content-based filtering** approach. For each user profile, it compares every song in the catalog with the user's preferred genre, mood, and target energy.
 
-Some prompts to answer:
+- **Song features used:** The main scoring logic uses `genre`, `mood`, and `energy` from `data/songs.csv`.
+- **User profile information:** The user profile stores the preferred genre, preferred mood, and target energy, for example `{"genre": "pop", "mood": "happy", "energy": 0.8}`.
+- **Scoring mechanism:** Each song gets an individual score for genre, mood, and energy. Genre and mood are binary matches, while energy is scored by proximity using `1 - abs(user_preference - song_value)`.
+- **Weighted total:** The final score is a weighted average:
 
-- What features does each `Song` use in your system
-  - For example: genre, mood, energy, tempo
-- What information does your `UserProfile` store
-- How does your `Recommender` compute a score for each song
-- How do you choose which songs to recommend
+  `Total Score = (0.2 * genre_score) + (0.3 * mood_score) + (0.5 * energy_score)`
 
-You can include a simple diagram or bullet list if helpful.
+- **Choosing recommendations:** After scoring the full catalog, the system sorts songs from highest to lowest score and returns the top results for that user.
+
+![alt text](image.png)
 
 ---
 
@@ -41,6 +33,8 @@ You can include a simple diagram or bullet list if helpful.
    python -m venv .venv
    source .venv/bin/activate      # Mac or Linux
    .venv\Scripts\activate         # Windows
+
+   ```
 
 2. Install dependencies
 
@@ -68,23 +62,25 @@ You can add more tests in `tests/test_recommender.py`.
 
 ## Experiments You Tried
 
-Use this section to document the experiments you ran. For example:
+The starter app tests several different user profiles to show how the rankings change:
 
-- What happened when you changed the weight on genre from 2.0 to 0.5
-- What happened when you added tempo or valence to the score
-- How did your system behave for different types of users
+- Happy Pop Fan
+- Intense Rock Fan
+- Chill Lofi Fan
+- Peaceful Classical Fan
+
+Those profiles help you compare how the recommender behaves for different tastes and whether the top songs feel consistent with each user's preferences.
 
 ---
 
 ## Limitations and Risks
 
-Summarize some limitations of your recommender.
+The current recommender has a few important limits:
 
-Examples:
-
-- It only works on a tiny catalog
-- It does not understand lyrics or language
-- It might over favor one genre or mood
+- It only uses a small song catalog, so the recommendation space is limited.
+- It only scores three features directly, so it ignores other useful signals like lyrics, artist popularity, or instrumentation.
+- The heavy energy weight means the system can favor energy matches even when genre or mood are less aligned.
+- The dataset can create bias if some genres or moods are underrepresented.
 
 You will go deeper on this in your model card.
 
@@ -96,17 +92,13 @@ Read and complete `model_card.md`:
 
 [**Model Card**](model_card.md)
 
-Write 1 to 2 paragraphs here about what you learned:
-
-- about how recommenders turn data into predictions
-- about where bias or unfairness could show up in systems like this
-
+Write 1 to 2 paragraphs here about what you learned about how recommenders turn data into predictions and where bias or unfairness could show up in systems like this.
 
 ---
 
 ## 7. `model_card_template.md`
 
-Combines reflection and model card framing from the Module 3 guidance. :contentReference[oaicite:2]{index=2}  
+Combines reflection and model card framing from the Module 3 guidance. :contentReference[oaicite:2]{index=2}
 
 ```markdown
 # 🎧 Model Card - Music Recommender Simulation
@@ -158,6 +150,7 @@ Describe your dataset.
 Where does your recommender work well
 
 You can think about:
+
 - Situations where the top results "felt right"
 - Particular user profiles it served well
 - Simplicity or transparency benefits
@@ -169,6 +162,7 @@ You can think about:
 Where does your recommender struggle
 
 Some prompts:
+
 - Does it ignore some genres or moods
 - Does it treat all users as if they have the same taste shape
 - Is it biased toward high energy or one genre by default
@@ -181,6 +175,7 @@ Some prompts:
 How did you check your system
 
 Examples:
+
 - You tried multiple user profiles and wrote down whether the results matched your expectations
 - You compared your simulation to what a real app like Spotify or YouTube tends to recommend
 - You wrote tests for your scoring logic
@@ -208,4 +203,6 @@ A few sentences about what you learned:
 - What surprised you about how your system behaved
 - How did building this change how you think about real music recommenders
 - Where do you think human judgment still matters, even if the model seems "smart"
+```
 
+![alt text](image.png)
