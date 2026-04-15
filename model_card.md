@@ -83,6 +83,10 @@ Prompts:
 - What surprised you  
 - Any simple tests or comparisons you ran  
 
+I tested four CLI profiles: Happy Pop Fan, Intense Rock Fan, Chill Lofi Fan, and Peaceful Classical Fan. I checked whether the top results matched the profile's genre, mood, and energy level, and I compared the explanations to make sure they matched the ranking logic.
+
+The results were mostly what I expected, but one thing that stood out was how often the energy weight pulled in cross-genre songs. For example, the Happy Pop and Intense Rock profiles both surfaced Gym Hero because it is high energy, while the Chill Lofi and Peaceful Classical profiles shifted toward calmer songs that matched the lower-energy mood of each profile. That made sense because the model is designed to reward energy strongly, but it also showed that the system is not just looking at genre alone.
+
 No need for numeric metrics unless you created some.
 
 ---
